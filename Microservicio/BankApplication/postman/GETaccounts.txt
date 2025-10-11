@@ -1,0 +1,20 @@
+curl --request GET \
+  --url http://localhost:8000/api/accounts  \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Connection: keep-alive' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: EchoapiRuntime/1.1.0' \
+  --data '[
+  {
+    "id": 1,
+    "holderName": "Mauricio Cuadrado",
+    "accountNumber": "ACC12345",
+    "balance": 1000.00,
+    "type": "SAVINGS",
+    "isActive": true,
+    "clientId": 1,
+    "transactions": []
+  }
+]
+'
