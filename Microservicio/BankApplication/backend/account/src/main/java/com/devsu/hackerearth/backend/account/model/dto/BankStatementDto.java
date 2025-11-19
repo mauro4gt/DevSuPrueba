@@ -1,36 +1,80 @@
 package com.devsu.hackerearth.backend.account.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import com.devsu.hackerearth.backend.account.model.Transaction;
+import java.time.LocalDate;
+import java.util.List;
 
-@Getter
-@Setter
 public class BankStatementDto {
 
-    private Long id;
-    private String type;
-    private BigDecimal amount;
-    private BigDecimal balanceAfter;
-    private LocalDateTime dateTransaction;
-    private String description;
-    private Long accountId;
+    private String holderName;
+    private String accountNumber;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private List<TransactionDto> transactions;
+
+    public BankStatementDto() {
+    }
+
+    public BankStatementDto(String holderName, String accountNumber, LocalDate startDate, LocalDate endDate,
+                            List<TransactionDto> transactions) {
+        this.holderName = holderName;
+        this.accountNumber = accountNumber;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.transactions = transactions;
+    }
+
+    public String getHolderName() {
+        return holderName;
+    }
+
+    public void setHolderName(String holderName) {
+        this.holderName = holderName;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public List<TransactionDto> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionDto> transactions) {
+        this.transactions = transactions;
+    }
 
     public static BankStatementDto fromEntity(Transaction transaction) {
-        if (transaction == null) return null;
+        if (transaction == null || transaction.getAccount() == null) {
+            return null;
+        }
 
         BankStatementDto dto = new BankStatementDto();
-        dto.setId(transaction.getId());
-        dto.setType(transaction.getType());
-        dto.setAmount(transaction.getAmount());
-        dto.setBalanceAfter(transaction.getBalanceAfter());
-        dto.setDateTransaction(transaction.getDateTransaction());
-        dto.setDescription(transaction.getDescription());
-        if (transaction.getAccount() != null) {
-            dto.setAccountId(transaction.getAccount().getId());
-        }
+        dto.setAccountNumber(transaction.getAccount().getAccountNumber());
+        dto.setHolderName(transaction.getAccount().getNumber());
+        dto.setStartDate(transaction.getDateTransaction() != null ? transaction.getDateTransaction().toLocalDate() : null);
+        dto.setEndDate(dto.getStartDate());
+        dto.setTransactions(List.of(TransactionDto.fromEntity(transaction)));
         return dto;
     }
 }

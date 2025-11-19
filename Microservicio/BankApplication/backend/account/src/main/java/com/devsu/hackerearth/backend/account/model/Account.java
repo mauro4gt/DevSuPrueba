@@ -1,18 +1,17 @@
 package com.devsu.hackerearth.backend.account.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "accounts")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Account extends Base {
 
     @Column(nullable = false)
@@ -40,27 +39,91 @@ public class Account extends Base {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 
-    // ===== Getters =====
-    public String getNumber() { return number; }
-    public String getType() { return type; }
-    public BigDecimal getInitialAmount() { return initialAmount; }
-    public Boolean getIsActive() { return isActive; }
-    public Long getClientId() { return clientId; }
-    public List<Transaction> getTransactions() { return transactions; }
-
-    public BigDecimal getBalance() {
-        if (transactions != null) {
-            return initialAmount != null ? initialAmount : BigDecimal.ZERO;
-        }
-        return BigDecimal.ZERO; // <-- cierra correctamente el método
+    public Account() {
     }
 
-    // ===== Setters =====
-    public void setNumber(String number) { this.number = number; }
-    public void setType(String type) { this.type = type; }
-    public void setInitialAmount(BigDecimal initialAmount) { this.initialAmount = initialAmount; }
-    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
-    public void setClientId(Long clientId) { this.clientId = clientId; }
-    public void setTransactions(List<Transaction> transactions) { this.transactions = transactions; }
-    public void setBalance(BigDecimal balance) { this.initialAmount = balance; }
+    public Account(String accountNumber, BigDecimal balance, LocalDateTime createdAt, String number, String type,
+                   BigDecimal initialAmount, Boolean isActive, Long clientId, List<Transaction> transactions) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.createdAt = createdAt;
+        this.number = number;
+        this.type = type;
+        this.initialAmount = initialAmount;
+        this.isActive = isActive;
+        this.clientId = clientId;
+        this.transactions = transactions;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public BigDecimal getInitialAmount() {
+        return initialAmount;
+    }
+
+    public void setInitialAmount(BigDecimal initialAmount) {
+        this.initialAmount = initialAmount;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
 }
